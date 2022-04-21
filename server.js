@@ -1,6 +1,5 @@
 const inquirer = require("inquirer");
 const db = require("./config/connection");
-const validator = require("./input_checker/validate");
 table = require("console.table");
 
 
@@ -72,12 +71,30 @@ viewDepartment = async () => {
     console.table(departments)
 };
 
+addDepartment = () => {};
+
+editDepartment = () => {};
+
+// EMPLOYEE
 viewEmployee = async () => {
     const employees = await db.viewAllEmployees();
     console.table(employees)
 };
 
-viewRole = async () => {};
+addEmployee = () => {};
+
+editEmployee = () => {};
+
+// ROLE OPTIONS
+viewRole = async () => {
+    const roles = await db.viewAllRoles();
+    console.table(roles)
+};
+
+addRole = () => {};
+
+editRole = () => {};
+
 
 // call
 startApp();
