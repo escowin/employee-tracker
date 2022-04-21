@@ -1,0 +1,27 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "tracking employees",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/escowin/employee-tracker.git"
+  },
+  "keywords": [
+    "sql"
+  ],
+  "author": "Edwin Escobar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/escowin/employee-tracker/issues"
+  },
+  "homepage": "https://github.com/escowin/employee-tracker#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^8.2.2",
+    "mysql2": "^2.3.3"
+  }
+}
