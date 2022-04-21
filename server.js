@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
-const db = require("./db");
-require("console.table");
+const db = require("./config/connection");
+const validator = require("./input_checker/validate");
+table = require("console.table");
 
 
 // START | SELECT VIEW, ADD, UPDATE, OR EXIT. 
