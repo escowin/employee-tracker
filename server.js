@@ -17,7 +17,7 @@ const startApp = () => {
     .then((res) => {
         switch (res.startApp) {
             case "view":
-                view();
+                viewTables();
                 break;
             case "add":
                 add();
@@ -50,7 +50,7 @@ const viewTables = () => {
         },
     ])
     .then((res) => {
-        switch (res.view) {
+        switch (res.viewTables) {
             case "department view":
               viewDepartment();
               break;
@@ -66,9 +66,15 @@ const viewTables = () => {
     });
 };
 
-viewDepartment = async () => {};
+viewDepartment = async () => {
+    const departments = await db.viewAllDepartments();
+    console.table(departments)
+};
 
-viewEmployee = async () => {};
+viewEmployee = async () => {
+    const employees = await db.viewAllEmployees();
+    console.table(employees)
+};
 
 viewRole = async () => {};
 
