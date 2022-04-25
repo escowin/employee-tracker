@@ -1,5 +1,22 @@
-const db = require("../../UTA-VIRT-BO-FSF-PT-10-2021-U-B/challenge-solutions/week-12/02-Challenge/Main/db");
 const connection = require("./connection");
 
+class DB {
+    // constructor connection
+}
 
-module.exports = new db(connection);
+// FIND | EMPLOYEE
+
+// CREATE | EMPLOYEE
+
+// UPDATE | EMPLOYEE ROLE
+
+// UPDATE | EMPLOYEE MANAGER
+
+
+// FIND | ROLE
+// CREATE | ROLE
+
+// FIND | DEPARTMENT
+// CREATE | DEPARTMENT
+
+module.exports = new DB(connection);
