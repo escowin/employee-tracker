@@ -1,6 +1,6 @@
-const mysql = require("mysql2")
+const mysql = require("mysql2");
 
-const db = mysql.createConnection(
+const connection = mysql.createConnection(
     {
         host: process.env.HOST,
         user: process.env.DB_USER,
@@ -10,4 +10,8 @@ const db = mysql.createConnection(
     console.log("election database connected")
 );
 
-module.exports = db;
+connection.connect(function (err){
+    if (err) throw err;
+})
+
+module.exports = connection;
