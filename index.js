@@ -15,18 +15,18 @@ startApp = () => {
 };
 
 // START PROMPTS
-startPrompts = () => {
+const startPrompts = () => {
     inquirer
     .prompt([
         {
             type: "list",
             name: "options",
-            message: "choose from the following options:",
+            message: "choose an option:",
             choices: ["view", "add", "update", "exit"],
         },
     ])
     .then((res) => {
-        switch (res.start) {
+        switch (res.options) {
             case "view":
                 view();
                 break;
