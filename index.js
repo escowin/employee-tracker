@@ -3,6 +3,7 @@ const db = require("./db");
 table = require("console.table");
 
 
+
 // START | SELECT VIEW, ADD, UPDATE, OR EXIT. 
 const startApp = () => {
     inquirer
@@ -33,6 +34,15 @@ const startApp = () => {
         }
     });
 };
+
+// NEW CODE
+startApp = () => {
+    const logoIcon = logo({name: "employee manager"}).render()
+    consolelog(logoIcon)
+    startApp();
+}
+
+
 
 // VIEW BY DEPT, EMPLOYEE, ROLE
 const viewTables = () => {
