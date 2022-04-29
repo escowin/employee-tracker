@@ -2,23 +2,26 @@ const inquirer = require("inquirer");
 const db = require("./db/connection");
 const validator = require("./db/validate");
 table = require("console.table");
-const logo = require("asciiart-logo");
+// const logo = require("asciiart-logo");
 
 // NEW startApp CODE
-// startApp = () => {
-//     const logoIcon = logo({ name: "employee manager" }).render();
-//     console.log(logoIcon);
-//     startApp();
-// };
+startApp = () => {
+    // const logoIcon = logo({ name: "employee manager" }).render();
+    // console.log(logoIcon);
+    console.log("=========================");
+    console.log("Starting Employee Tracker");
+    console.log("=========================");
+    startPrompts();
+};
 
 // START PROMPTS
-startApp = () => {
+startPrompts = () => {
     inquirer
     .prompt([
         {
             type: "list",
-            name: "start",
-            message: "choose from the following:",
+            name: "options",
+            message: "choose from the following options:",
             choices: ["view", "add", "update", "exit"],
         },
     ])
