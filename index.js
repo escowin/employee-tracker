@@ -1,6 +1,7 @@
-const inquirer = require("inquirer");
+const { prompt } = require("inquirer");
+const logo = require("asciiart-logo");
 const db = require("./db");
-table = require("console.table");
+require("console.table");
 
 // NEW startApp CODE
 startApp = () => {

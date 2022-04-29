@@ -20,8 +20,12 @@
   },
   "homepage": "https://github.com/escowin/employee-tracker#readme",
   "dependencies": {
+    "asciiart-logo": "^0.2.6",
     "console.table": "^0.10.0",
+    "dotenv": "^16.0.0",
     "inquirer": "^8.2.2",
-    "mysql2": "^2.3.3"
+    "mysql2": "^2.3.3",
+    "util": "^0.12.4",
+    "validator": "^13.7.0"
   }
 }
