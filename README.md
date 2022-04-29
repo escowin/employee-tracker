@@ -1,5 +1,5 @@
 # employee-tracker
-* | Project Repo | https://github.com/escowin/employee-tracker
+* [Project Repo](https://github.com/escowin/employee-tracker)
 
 ## DESCRIPTION
 * 12 SQL Challenge | Employee Tracker
