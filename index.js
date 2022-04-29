@@ -1,17 +1,18 @@
-const { prompt } = require("inquirer");
+const inquirer = require("inquirer");
+const db = require("./db/connection");
+const validator = require("./db/validate");
+table = require("console.table");
 const logo = require("asciiart-logo");
-const db = require("./db");
-require("console.table");
 
 // NEW startApp CODE
-startApp = () => {
-    const logoIcon = logo({ name: "employee manager" }).render();
-    consolelog(logoIcon);
-    startApp();
-};
+// startApp = () => {
+//     const logoIcon = logo({ name: "employee manager" }).render();
+//     console.log(logoIcon);
+//     startApp();
+// };
 
 // START PROMPTS
-const start = () => {
+startApp = () => {
     inquirer
     .prompt([
         {
