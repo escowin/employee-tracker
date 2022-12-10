@@ -21,7 +21,7 @@
   "homepage": "https://github.com/escowin/employee-tracker#readme",
   "dependencies": {
     "console.table": "^0.10.0",
-    "inquirer": "^8.2.2",
+    "inquirer": "^8.2.4",
     "mysql2": "^2.3.3"
   }
 }
