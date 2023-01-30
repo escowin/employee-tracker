@@ -41,15 +41,26 @@ function initPrompts() {
       type: "list",
       name: "options",
       message: "what would you like to do?",
-      choices: ['view departments', 'view roles', 'view employees']
+      choices: ["view departments", "view roles", "view employees"],
     },
   ];
 
   inquirer
     .prompt(questions)
     .then((answer) => {
-      console.log(answer);
-      console.log(answer.options)
+      switch (answer.options) {
+        case "view departments":
+          viewDepartments();
+          break;
+        case "view roles":
+          viewRoles();
+          break;
+        case "view employees":
+          viewEmployees();
+          break;
+        default:
+          console.log('nothing selected');
+      }
     })
     .catch((err) => {
       if (err) throw err;
