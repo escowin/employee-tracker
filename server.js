@@ -1,6 +1,7 @@
 const express = require("express");
 const inquirer = require("inquirer");
 const db = require("./db/connection");
+require('console.table')
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -26,7 +27,7 @@ const crud = {
   postRole: "add a role",
   postEmployee: "add an employee",
   putEmployeeRole: "update an employee role",
-}
+};
 
 // inquirer prompt
 function init() {
@@ -53,9 +54,9 @@ function initPrompts() {
         crud.getDepartments,
         crud.getRoles,
         crud.getEmployees,
-        crud.addDepartment,
-        crud.addRole,
-        crud.addEmployee,
+        crud.postDepartment,
+        crud.postRole,
+        crud.postEmployee,
         crud.putEmployeeRole,
       ],
     },
@@ -139,6 +140,6 @@ function addEmployee() {
 
 // - put | update an employee's role
 function updateEmployeeRole() {
-  console.log("update an employee's role")
-  // role prompt : select an employee, update their role. this info is updated in db 
+  console.log("update an employee's role");
+  // role prompt : select an employee, update their role. this info is updated in db
 }
