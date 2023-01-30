@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const inquirer = require("inquirer");
 const db = require("./db/connection");
 
@@ -11,13 +11,49 @@ db.connect((err) => {
   console.log("database connected");
   app.listen(PORT, () => {
     console.log(`
-        server is running on port ${PORT}
-        localhost:${PORT}`);
+    server is running on port ${PORT}
+    localhost:${PORT}`);
+    init();
   });
-  viewDepartments();
-  viewRoles();
-  viewEmployees();
+  // viewDepartments();
+  // viewRoles();
+  // viewEmployees();
 });
+
+// inquirer prompt
+function init() {
+  let date = new Date().getFullYear();
+
+  console.log(`
+  ==========================
+   employee tracker v.2.0.1
+   \u00a9${date} Edwin M. Escobar
+  ==========================
+  `);
+
+  initPrompts();
+}
+
+// inquirer prompts
+function initPrompts() {
+  console.log("test");
+  const questions = [
+    {
+      type: "input",
+      name: "name",
+      message: "enter name",
+    },
+  ];
+
+  inquirer
+    .prompt(questions)
+    .then((answer) => {
+      console.log(answer);
+    })
+    .catch((err) => {
+      if (err) throw err;
+    });
+}
 
 // crud operators for employee_tracker_db
 // - read | gets specified tables from the database
@@ -27,7 +63,7 @@ function viewDepartments() {
     console.log("All departments: ");
     console.table(result);
   });
-};
+}
 
 function viewRoles() {
   db.query("SELECT * FROM role", (err, result) => {
@@ -35,7 +71,7 @@ function viewRoles() {
     console.log("All roles: ");
     console.table(result);
   });
-};
+}
 
 function viewEmployees() {
   db.query("SELECT * FROM employee", (err, result) => {
@@ -43,8 +79,7 @@ function viewEmployees() {
     console.log("All roles: ");
     console.table(result);
   });
-};
-
+}
 
 // cli app crud:
 // - get routes | view all departments, roles, employees.
