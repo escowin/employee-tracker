@@ -1,26 +1,26 @@
 {
   "name": "employee-tracker",
   "version": "1.0.0",
-  "description": "tracking employees",
-  "main": "index.js",
+  "description": "* [Project Repo](https://github.com/escowin/employee-tracker)",
+  "main": "server.js",
   "scripts": {
-    "test": "node index"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/escowin/employee-tracker.git"
   },
-  "keywords": [
-    "sql"
-  ],
-  "author": "Edwin Escobar",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/escowin/employee-tracker/issues"
   },
   "homepage": "https://github.com/escowin/employee-tracker#readme",
   "dependencies": {
-    "console.table": "^0.10.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
     "inquirer": "^8.2.4",
     "mysql2": "^2.3.3"
   }
