@@ -17,6 +17,17 @@ db.connect((err) => {
   });
 });
 
+// object dot notation makes future list/case value updates easier
+const crud = {
+  getDepartments: "view departments",
+  getRoles: "view roles",
+  getEmployees: "view employees",
+  postDepartment: "add a department",
+  postRole: "add a role",
+  postEmployee: "add an employee",
+  putEmployeeRole: "update an employee role",
+}
+
 // inquirer prompt
 function init() {
   let date = new Date().getFullYear();
@@ -39,13 +50,13 @@ function initPrompts() {
       name: "options",
       message: "what would you like to do?",
       choices: [
-        "view departments",
-        "view roles",
-        "view employees",
-        "add a department",
-        "add a role",
-        "add an employee",
-        "update an employee role",
+        crud.getDepartments,
+        crud.getRoles,
+        crud.getEmployees,
+        crud.addDepartment,
+        crud.addRole,
+        crud.addEmployee,
+        crud.putEmployeeRole,
       ],
     },
   ];
@@ -54,25 +65,25 @@ function initPrompts() {
     .prompt(questions)
     .then((answer) => {
       switch (answer.options) {
-        case "view departments":
+        case crud.getDepartments:
           viewDepartments();
           break;
-        case "view roles":
+        case crud.getRoles:
           viewRoles();
           break;
-        case "view employees":
+        case crud.getEmployees:
           viewEmployees();
           break;
-        case "add a department":
+        case crud.addDepartment:
           addDepartment();
           break;
-        case "add a role":
+        case crud.addRole:
           addRole();
           break;
-        case "add an employee":
+        case crud.addEmployee:
           addEmployee();
           break;
-        case "update an employee role":
+        case crud.putEmployeeRole:
           updateEmployeeRole();
           break;
         default:
