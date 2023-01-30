@@ -1,5 +1,5 @@
+const express = require('express');
 const inquirer = require("inquirer");
-const express = require("express");
 const db = require("./db/connection");
 
 const PORT = process.env.PORT || 3001;
@@ -21,7 +21,7 @@ db.connect((err) => {
 
 // crud operators for employee_tracker_db
 // - read | gets specified tables from the database
-const viewDepartments = () => {
+function viewDepartments() {
   db.query("SELECT * FROM department", (err, result) => {
     if (err) throw err;
     console.log("All departments: ");
@@ -29,7 +29,7 @@ const viewDepartments = () => {
   });
 };
 
-const viewRoles = () => {
+function viewRoles() {
   db.query("SELECT * FROM role", (err, result) => {
     if (err) throw err;
     console.log("All roles: ");
@@ -37,7 +37,7 @@ const viewRoles = () => {
   });
 };
 
-const viewEmployees = () => {
+function viewEmployees() {
   db.query("SELECT * FROM employee", (err, result) => {
     if (err) throw err;
     console.log("All roles: ");
