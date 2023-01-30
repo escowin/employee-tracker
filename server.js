@@ -15,9 +15,6 @@ db.connect((err) => {
     localhost:${PORT}`);
     init();
   });
-  // viewDepartments();
-  // viewRoles();
-  // viewEmployees();
 });
 
 // inquirer prompt
@@ -41,7 +38,15 @@ function initPrompts() {
       type: "list",
       name: "options",
       message: "what would you like to do?",
-      choices: ["view departments", "view roles", "view employees"],
+      choices: [
+        "view departments",
+        "view roles",
+        "view employees",
+        "add a department",
+        "add a role",
+        "add an employee",
+        "update an employee role",
+      ],
     },
   ];
 
@@ -58,8 +63,20 @@ function initPrompts() {
         case "view employees":
           viewEmployees();
           break;
+        case "add a department":
+          addDepartment();
+          break;
+        case "add a role":
+          addRole();
+          break;
+        case "add an employee":
+          addEmployee();
+          break;
+        case "update an employee role":
+          updateEmployeeRole();
+          break;
         default:
-          console.log('nothing selected');
+          console.log("nothing selected");
       }
     })
     .catch((err) => {
@@ -68,7 +85,7 @@ function initPrompts() {
 }
 
 // crud operators for employee_tracker_db
-// - read | gets specified tables from the database
+// - read | get specified tables from the database
 function viewDepartments() {
   db.query("SELECT * FROM department", (err, result) => {
     if (err) throw err;
@@ -93,15 +110,24 @@ function viewEmployees() {
   });
 }
 
-// cli app crud:
-// - get routes | view all departments, roles, employees.
-// - post routes | add a department, a role, and employee.
-// - update routes | update an employee's role.
+// - post | add a new department, role, or employee to employee_tracker_db
+function addDepartment() {
+  console.log("add a department");
+  // add department prompt : enter name.
+}
 
-// POST to database
-// add department prompt : enter name.
-// add role prompt : enter name, salary, and department.
-// add employee prompt : enter first name, last name, role, and manager.
+function addRole() {
+  console.log("add a role");
+  // add role prompt : enter name, salary, and department.
+}
 
-// UPDATE database
-// role prompt : select an employee, update their role.
+function addEmployee() {
+  console.log("add an employee");
+  // add employee prompt : enter first name, last name, role, and manager.
+}
+
+// - put | update an employee's role
+function updateEmployeeRole() {
+  console.log("update an employee's role")
+  // role prompt : select an employee, update their role. this info is updated in db 
+}
