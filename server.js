@@ -36,12 +36,12 @@ function init() {
 
 // inquirer prompts
 function initPrompts() {
-  console.log("test");
   const questions = [
     {
-      type: "input",
-      name: "name",
-      message: "enter name",
+      type: "list",
+      name: "options",
+      message: "what would you like to do?",
+      choices: ['view departments', 'view roles', 'view employees']
     },
   ];
 
@@ -49,6 +49,7 @@ function initPrompts() {
     .prompt(questions)
     .then((answer) => {
       console.log(answer);
+      console.log(answer.options)
     })
     .catch((err) => {
       if (err) throw err;
