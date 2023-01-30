@@ -15,8 +15,12 @@ db.connect((err) => {
         localhost:${PORT}`);
   });
   viewDepartments();
+  viewRoles();
+  viewEmployees();
 });
 
+// crud operators for employee_tracker_db
+// - read | gets specified tables from the database
 const viewDepartments = () => {
   db.query("SELECT * FROM department", (err, result) => {
     if (err) throw err;
@@ -25,17 +29,27 @@ const viewDepartments = () => {
   });
 };
 
-// employee tracker redux, sql exercise.
+const viewRoles = () => {
+  db.query("SELECT * FROM role", (err, result) => {
+    if (err) throw err;
+    console.log("All roles: ");
+    console.table(result);
+  });
+};
+
+const viewEmployees = () => {
+  db.query("SELECT * FROM employee", (err, result) => {
+    if (err) throw err;
+    console.log("All roles: ");
+    console.table(result);
+  });
+};
+
 
 // cli app crud:
 // - get routes | view all departments, roles, employees.
 // - post routes | add a department, a role, and employee.
 // - update routes | update an employee's role.
-
-// GET from database
-// view all departments : displays table with department names & id
-// view all roles : displays job title, role id, its department, and its salary
-// view all employees : displays employee id, first name, last name, job titles, departments, salaries, and employee's managers
 
 // POST to database
 // add department prompt : enter name.
