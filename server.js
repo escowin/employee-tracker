@@ -1,20 +1,29 @@
 const inquirer = require("inquirer");
 const express = require("express");
-const db = require('./db/connection');
+const db = require("./db/connection");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 
 // connecting to server
-db.connect(err => {
-    if (err) throw err;
-    console.log('database connected');
-    app.listen(PORT, () => {
-        console.log(`
+db.connect((err) => {
+  if (err) throw err;
+  console.log("database connected");
+  app.listen(PORT, () => {
+    console.log(`
         server is running on port ${PORT}
         localhost:${PORT}`);
-    });
+  });
+  viewDepartments();
 });
+
+const viewDepartments = () => {
+  db.query("SELECT * FROM department", (err, result) => {
+    if (err) throw err;
+    console.log("All departments: ");
+    console.table(result);
+  });
+};
 
 // employee tracker redux, sql exercise.
 
@@ -22,7 +31,6 @@ db.connect(err => {
 // - get routes | view all departments, roles, employees.
 // - post routes | add a department, a role, and employee.
 // - update routes | update an employee's role.
-
 
 // GET from database
 // view all departments : displays table with department names & id
