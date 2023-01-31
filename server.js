@@ -1,6 +1,7 @@
 const express = require("express");
 const inquirer = require("inquirer");
 const db = require("./db/connection");
+const { department, role, employee, crud } = require("./utils");
 require("console.table");
 
 const PORT = process.env.PORT || 3001;
@@ -12,21 +13,19 @@ db.connect((err) => {
   console.log("database connected");
   app.listen(PORT, () => {
     console.log(`
-    server is running on port ${PORT}
-    localhost:${PORT}`);
+    server is running on localhost:${PORT}`);
     init();
   });
 });
 
-// object dot notation makes future list/case value updates easier
 const crud = {
-  getDepartments: "view departments",
-  getRoles: "view roles",
-  getEmployees: "view employees",
-  postDepartment: "add a department",
-  postRole: "add a role",
-  postEmployee: "add an employee",
-  putEmployeeRole: "update an employee role",
+  getDepartments: `view ${department}s`,
+  getRoles: `view ${role}s`,
+  getEmployees: `view ${employee}s`,
+  postDepartment: `add a ${department}`,
+  postRole: `add a ${role}`,
+  postEmployee: `add a ${employee}`,
+  putEmployeeRole: `update an ${employee} ${role}`,
 };
 
 // inquirer
@@ -100,7 +99,8 @@ function mainMenu() {
 // crud operators for employee_tracker_db
 // - read | get specified tables from the database
 function viewDepartments() {
-  db.query("SELECT * FROM department", (err, result) => {
+  const sql = `SELECT * FROM ${department}`
+  db.query(sql, (err, result) => {
     if (err) throw err;
     console.log("All departments: ");
     console.table(result);
@@ -109,7 +109,8 @@ function viewDepartments() {
 }
 
 function viewRoles() {
-  db.query("SELECT * FROM role", (err, result) => {
+  const sql = `SELECT * FROM ${role}`
+  db.query(sql, (err, result) => {
     if (err) throw err;
     console.log("All roles: ");
     console.table(result);
@@ -117,7 +118,8 @@ function viewRoles() {
 }
 
 function viewEmployees() {
-  db.query("SELECT * FROM employee", (err, result) => {
+  const sql = `SELECT * FROM ${employee}`
+  db.query(sql, (err, result) => {
     if (err) throw err;
     console.log("All roles: ");
     console.table(result);
@@ -147,8 +149,7 @@ function addDepartment() {
 }
 
 function addRole() {
-  db.viewDepartments().then(([rows]) => console.log(rows))
-
+  console.log(`add ${role}`);
   const question = [
     {
       type: "input",
@@ -245,7 +246,7 @@ function addEmployee() {
 function updateEmployeeRole() {
   // get all employees
 
-  prompt([])
+  prompt([]);
   const question = [
     {
       type: "input",
