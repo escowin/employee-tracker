@@ -52,13 +52,13 @@ function mainMenu() {
       name: "options",
       message: "what would you like to do?",
       choices: [
-        crud.getDepartments,
+        // crud.getDepartments,
         // crud.getRoles,
         // crud.getEmployees,
-        crud.postDepartment,
+        // crud.postDepartment,
         // crud.postRole,
         // crud.postEmployee,
-        // crud.putEmployeeRole,
+        crud.putEmployeeRole,
       ],
     },
   ];
@@ -147,17 +147,105 @@ function addDepartment() {
 }
 
 function addRole() {
-  console.log("add a role");
-  // add role prompt : enter name, salary, and department.
+  const question = [
+    {
+      type: "input",
+      name: "roleName",
+      message: "enter role name",
+      validate: (input) => {
+        if (input) {
+          return true;
+        } else {
+          console.log("enter role name");
+          return false;
+        }
+      },
+    },
+    {
+      type: "number",
+      name: "salary",
+      message: "enter salary",
+      validate: input => {
+        if (!input) {
+          console.log("enter salary")
+          return false;
+        }
+        return true;
+      }
+    },
+    {
+      type: "choices",
+      name: "department",
+      message: "which department does this role belong to?",
+      options: "",
+      validate: input => {
+        if (!input) {
+          console.log("which department does this role belong to? enter department id")
+          return false;
+        }
+        return true;
+      }
+    }
+  ];
+  
+  inquirer.prompt(question).then((answer) => console.log(answer));
 }
 
 function addEmployee() {
-  console.log("add an employee");
-  // add employee prompt : enter first name, last name, role, and manager.
+  const question = [
+    {
+      type: "input",
+      name: "firstName",
+      message: "enter first name",
+      validate: (input) => {
+        if (input) {
+          return true;
+        } else {
+          console.log("enter last name");
+          return false;
+        }
+      },
+    },
+    {
+      type: "input",
+      name: "lastName",
+      message: "enter last name",
+      validate: (input) => {
+        if (input) {
+          return true;
+        } else {
+          console.log("enter last name");
+          return false;
+        }
+      },
+    },
+    {
+      type: "input",
+      name: "role",
+      message: "enter employee role",
+      validate: (input) => {
+        if (input) {
+          return true;
+        } else {
+          console.log("enter name employee role");
+          return false;
+        }
+      },
+    },
+  ];
+  
+  inquirer.prompt(question).then((answer) => console.log(answer));
 }
 
 // - put | update an employee's role
 function updateEmployeeRole() {
-  console.log("update an employee's role");
-  // role prompt : select an employee, update their role. this info is updated in db
+  const question = [
+    {
+      type: "input",
+      name: "role",
+      message: "enter new role"
+    }
+  ]
+
+  inquirer.prompt(question).then((answer) => console.log(answer));
 }
