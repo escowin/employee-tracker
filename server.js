@@ -1,7 +1,7 @@
 const express = require("express");
 const inquirer = require("inquirer");
 const db = require("./db/connection");
-require('console.table')
+require("console.table");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -29,7 +29,8 @@ const crud = {
   putEmployeeRole: "update an employee role",
 };
 
-// inquirer prompt
+// inquirer
+// - start up | a welcome screen & a call to the main menu
 function init() {
   let date = new Date().getFullYear();
 
@@ -40,30 +41,30 @@ function init() {
   ==========================
   `);
 
-  initPrompts();
+  mainMenu();
 }
 
-// inquirer prompts
-function initPrompts() {
-  const questions = [
+// - main menu | a list of options to perform the main crud operations
+function mainMenu() {
+  const question = [
     {
       type: "list",
       name: "options",
       message: "what would you like to do?",
       choices: [
         crud.getDepartments,
-        crud.getRoles,
-        crud.getEmployees,
+        // crud.getRoles,
+        // crud.getEmployees,
         crud.postDepartment,
-        crud.postRole,
-        crud.postEmployee,
-        crud.putEmployeeRole,
+        // crud.postRole,
+        // crud.postEmployee,
+        // crud.putEmployeeRole,
       ],
     },
   ];
 
   inquirer
-    .prompt(questions)
+    .prompt(question)
     .then((answer) => {
       switch (answer.options) {
         case crud.getDepartments:
@@ -75,13 +76,13 @@ function initPrompts() {
         case crud.getEmployees:
           viewEmployees();
           break;
-        case crud.addDepartment:
+        case crud.postDepartment:
           addDepartment();
           break;
-        case crud.addRole:
+        case crud.postRole:
           addRole();
           break;
-        case crud.addEmployee:
+        case crud.postEmployee:
           addEmployee();
           break;
         case crud.putEmployeeRole:
@@ -104,6 +105,7 @@ function viewDepartments() {
     console.log("All departments: ");
     console.table(result);
   });
+  mainMenu();
 }
 
 function viewRoles() {
@@ -124,8 +126,24 @@ function viewEmployees() {
 
 // - post | add a new department, role, or employee to employee_tracker_db
 function addDepartment() {
-  console.log("add a department");
-  // add department prompt : enter name.
+  // captures key values
+  const question = [
+    {
+      type: "input",
+      name: "departmentName",
+      message: "enter department name",
+      validate: (input) => {
+        if (input) {
+          return true;
+        } else {
+          console.log("enter department name");
+          return false;
+        }
+      },
+    },
+  ];
+  
+  inquirer.prompt(question).then((answer) => console.log(answer));
 }
 
 function addRole() {
