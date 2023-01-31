@@ -56,9 +56,9 @@ function mainMenu() {
         // crud.getRoles,
         // crud.getEmployees,
         // crud.postDepartment,
-        // crud.postRole,
+        crud.postRole,
         // crud.postEmployee,
-        crud.putEmployeeRole,
+        // crud.putEmployeeRole,
       ],
     },
   ];
@@ -142,11 +142,13 @@ function addDepartment() {
       },
     },
   ];
-  
+
   inquirer.prompt(question).then((answer) => console.log(answer));
 }
 
 function addRole() {
+  db.viewDepartments().then(([rows]) => console.log(rows))
+
   const question = [
     {
       type: "input",
@@ -165,30 +167,32 @@ function addRole() {
       type: "number",
       name: "salary",
       message: "enter salary",
-      validate: input => {
+      validate: (input) => {
         if (!input) {
-          console.log("enter salary")
+          console.log("enter salary");
           return false;
         }
         return true;
-      }
+      },
     },
     {
       type: "choices",
       name: "department",
       message: "which department does this role belong to?",
       options: "",
-      validate: input => {
+      validate: (input) => {
         if (!input) {
-          console.log("which department does this role belong to? enter department id")
+          console.log(
+            "which department does this role belong to? enter department id"
+          );
           return false;
         }
         return true;
-      }
-    }
+      },
+    },
   ];
-  
-  inquirer.prompt(question).then((answer) => console.log(answer));
+
+  // inquirer.prompt(question).then((answer) => console.log(answer));
 }
 
 function addEmployee() {
@@ -233,19 +237,22 @@ function addEmployee() {
       },
     },
   ];
-  
+
   inquirer.prompt(question).then((answer) => console.log(answer));
 }
 
 // - put | update an employee's role
 function updateEmployeeRole() {
+  // get all employees
+
+  prompt([])
   const question = [
     {
       type: "input",
       name: "role",
-      message: "enter new role"
-    }
-  ]
+      message: "enter new role",
+    },
+  ];
 
   inquirer.prompt(question).then((answer) => console.log(answer));
 }
