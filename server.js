@@ -26,6 +26,7 @@ const crud = {
   postRole: `add a ${role}`,
   postEmployee: `add a ${employee}`,
   putEmployeeRole: `update an ${employee} ${role}`,
+  deleteEmployee: `delete an ${employee}`
 };
 
 // inquirer
@@ -34,10 +35,12 @@ function init() {
   let date = new Date().getFullYear();
 
   console.log(`
-  ==========================
-   employee tracker v.2.0.1
-   \u00a9${date} Edwin M. Escobar
-  ==========================
+  ===============================================
+    employee tracker v.2.0.1
+    \u00a9${date} Edwin M. Escobar
+
+    https://github.com/escowin/employee-tracker
+  ===============================================
   `);
 
   mainMenu();
@@ -53,10 +56,11 @@ function mainMenu() {
         crud.getDepartments,
         crud.getRoles,
         crud.getEmployees,
-        // crud.postDepartment,
-        // crud.postRole,
-        // crud.postEmployee,
+        crud.postDepartment,
+        crud.postRole,
+        crud.postEmployee,
         crud.putEmployeeRole,
+        crud.deleteEmployee
       ],
     },
   ];
@@ -86,6 +90,9 @@ function mainMenu() {
         case crud.putEmployeeRole:
           updateEmployeeRole();
           break;
+        case crud.deleteEmployee:
+          deleteEmployee();
+          break;
         default:
           console.log("nothing selected");
       }
@@ -95,8 +102,8 @@ function mainMenu() {
     });
 }
 
-// crud operators to use on employee_tracker_db
-// - read | get specified tables from the database
+// crud operators to use on employee_tracker_db tables
+// - department | get, post
 function viewDepartments() {
   const sql = `SELECT * FROM ${department}`;
   // mysql | .query(request, response), if there are no errors, err is null & returns response.
@@ -107,25 +114,6 @@ function viewDepartments() {
   });
 }
 
-function viewRoles() {
-  const sql = `SELECT * FROM ${role}`;
-  db.query(sql, (err, rows) => {
-    if (err) throw err;
-    console.log(`${role}s: `);
-    console.table(rows);
-  });
-}
-
-function viewEmployees() {
-  const sql = `SELECT * FROM ${employee}`;
-  db.query(sql, (err, rows) => {
-    if (err) throw err;
-    console.log(`${employee}s: `);
-    console.table(rows);
-  });
-}
-
-// - post | add a new department, role, or employee to employee_tracker_db.
 function addDepartment() {
   const question = [
     {
@@ -153,6 +141,16 @@ function addDepartment() {
       console.log(`${params} added to ${department}`);
       mainMenu();
     });
+  });
+}
+
+// - role | get, post
+function viewRoles() {
+  const sql = `SELECT * FROM ${role}`;
+  db.query(sql, (err, rows) => {
+    if (err) throw err;
+    console.log(`${role}s: `);
+    console.table(rows);
   });
 }
 
@@ -203,6 +201,16 @@ function addRole() {
         mainMenu();
       });
     });
+  });
+}
+
+// - employee | get, post, put, delete
+function viewEmployees() {
+  const sql = `SELECT * FROM ${employee}`;
+  db.query(sql, (err, rows) => {
+    if (err) throw err;
+    console.log(`${employee}s: `);
+    console.table(rows);
   });
 }
 
@@ -294,7 +302,6 @@ function addEmployee() {
   });
 }
 
-// - put | select and update and existing employee's role
 function updateEmployeeRole() {
   // selects an existing employee from the database
   const sql = `SELECT * FROM ${employee}`;
@@ -340,8 +347,31 @@ function updateEmployeeRole() {
   });
 }
 
-// function deleteFunction() {
-// const sql = `DELETE FROM ${} WHERE id = ?`
-// // parameters (request, number of rows affected, response)
-// db.query(sql, 1, (err, result) => {})
-// }
+function deleteEmployee() {
+  const sql = `SELECT * FROM ${employee}`
+  db.query(sql, (err, employeeTable) => {
+    if (err) throw err;
+    const employees = employeeTable.map(row => {
+      return { value: row.id, name: `${row.first_name} ${row.last_name}` };
+    })
+
+    const question = [
+      {
+        type: "list",
+        name: "id",
+        message: "select employee to delete",
+        choices: employees
+      }
+    ];
+
+    inquirer.prompt(question).then(answer => {
+      const sql = `DELETE FROM ${employee} WHERE id = ?`;
+      const params = answer.id;
+
+      console.log(params);
+    })
+  })
+  // const sql = 
+  // parameters (request, number of rows affected, response)
+  // db.query(sql, 1, (err, result) => {})
+}
