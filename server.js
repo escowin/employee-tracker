@@ -20,12 +20,13 @@ db.connect((err) => {
 
 const crud = {
   getDepartments: `view ${department}s`,
+  postDepartment: `post a ${department}`,
   getRoles: `view ${role}s`,
-  getEmployees: `view ${employee}s`,
   postRole: `add a ${role}`,
+  getEmployees: `view ${employee}s`,
   postEmployee: `add an ${employee}`,
   putEmployeeRole: `update an ${employee} ${role}`,
-  deleteEmployee: `delete an ${employee}`,
+  deleteEmployee: `delete an ${employee}`
 };
 
 // inquirer
