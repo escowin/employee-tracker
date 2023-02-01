@@ -20,13 +20,13 @@ db.connect((err) => {
 
 const crud = {
   getDepartments: `view ${department}s`,
-  postDepartment: `post a ${department}`,
+  postDepartment: `add a ${department}`,
   getRoles: `view ${role}s`,
   postRole: `add a ${role}`,
   getEmployees: `view ${employee}s`,
   postEmployee: `add an ${employee}`,
   putEmployeeRole: `update an ${employee} ${role}`,
-  deleteEmployee: `delete an ${employee}`
+  deleteEmployee: `delete an ${employee}`,
 };
 
 // inquirer
@@ -111,6 +111,7 @@ function viewDepartments() {
     if (err) throw err;
     console.log(`${department}s: `);
     console.table(rows);
+    mainMenu();
   });
 }
 
@@ -151,6 +152,7 @@ function viewRoles() {
     if (err) throw err;
     console.log(`${role}s: `);
     console.table(rows);
+    mainMenu();
   });
 }
 
@@ -211,6 +213,7 @@ function viewEmployees() {
     if (err) throw err;
     console.log(`${employee}s: `);
     console.table(rows);
+    mainMenu();
   });
 }
 
@@ -294,7 +297,7 @@ function addEmployee() {
         ];
         db.query(sql, params, (err, res) => {
           if (err) throw err;
-          console.log(`${params[0]} ${params[2]} added to ${employee}s`);
+          console.log(`${params[0]} ${params[1]} added to ${employee}s`);
           mainMenu();
         });
       });
