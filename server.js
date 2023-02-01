@@ -1,7 +1,7 @@
 const express = require("express");
 const inquirer = require("inquirer");
 const db = require("./db/connection");
-const { department, role, employee, crud } = require("./utils");
+const { department, role, employee } = require("./utils");
 require("console.table");
 
 const PORT = process.env.PORT || 3001;
@@ -251,7 +251,7 @@ function updateEmployeeRole() {
   const sql = `SELECT * FROM ${employee} WHERE id = 1`;
   db.query(sql, (err, row) => {
     if (err) throw err;
-    console.log(employee)
+    console.log(row)
   })
 
   // prompt([]);
