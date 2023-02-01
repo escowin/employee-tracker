@@ -51,13 +51,13 @@ function mainMenu() {
       name: "options",
       message: "what would you like to do?",
       choices: [
-        // crud.getDepartments,
+        crud.getDepartments,
         // crud.getRoles,
         // crud.getEmployees,
         // crud.postDepartment,
         // crud.postRole,
         // crud.postEmployee,
-        crud.putEmployeeRole,
+        // crud.putEmployeeRole,
       ],
     },
   ];
@@ -129,26 +129,31 @@ function viewEmployees() {
 
 // - post | add a new department, role, or employee to employee_tracker_db.
 function addDepartment() {
-  const sql = `INSERT INTO ${department} (name) VALUES (?)`
+  const sql = `INSERT INTO ${department} (id, name) VALUES (?,?)`;
+  // const params = [2, 'Finance']
+  db.query(sql, params, (err, result) => {
+    if (err) throw err;
+    console.log(result);
+  })
 
   // captures key values
-  const question = [
-    {
-      type: "input",
-      name: "departmentName",
-      message: "enter department name",
-      validate: (input) => {
-        if (input) {
-          return true;
-        } else {
-          console.log("enter department name");
-          return false;
-        }
-      },
-    },
-  ];
+  // const question = [
+  //   {
+  //     type: "input",
+  //     name: "departmentName",
+  //     message: "enter department name",
+  //     validate: (input) => {
+  //       if (input) {
+  //         return true;
+  //       } else {
+  //         console.log("enter department name");
+  //         return false;
+  //       }
+  //     },
+  //   },
+  // ];
 
-  inquirer.prompt(question).then((answer) => console.log(answer));
+  // inquirer.prompt(question).then((answer) => console.log(answer));
 }
 
 function addRole() {
@@ -265,3 +270,9 @@ function updateEmployeeRole() {
 
   // inquirer.prompt(question).then((answer) => console.log(answer));
 }
+
+// function deleteFunction() {
+  // const sql = `DELETE FROM ${} WHERE id = ?`
+  // // parameters (request, number of rows affected, response)
+  // db.query(sql, 1, (err, result) => {})
+// }
