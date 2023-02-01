@@ -51,7 +51,7 @@ function mainMenu() {
       message: "what would you like to do?",
       choices: [
         // crud.getDepartments,
-        // crud.getRoles,
+        crud.getRoles,
         // crud.getEmployees,
         // crud.postDepartment,
         crud.postRole,
@@ -193,8 +193,15 @@ function addRole() {
     ];
 
     inquirer.prompt(questions).then((answer) => {
-      const sql = `INSERT INTO ${role} (title) VALUES (?)`;
-      console.log(answer);
+      const sql = `INSERT INTO ${role} (title, salary, department_id) VALUES (?,?,?)`;
+      const params = [answer.title, answer.salary, answer.department_id]
+
+      // mysql | query method posts role to database by taking the sql command & param values in its parameters
+      db.query(sql, params, (err, res) => {
+        if (err) throw err;
+        console.log(`${params[0]} added to ${role}s`);
+        mainMenu();
+      })
     });
   });
 }
