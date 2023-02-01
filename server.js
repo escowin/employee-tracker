@@ -50,12 +50,12 @@ function mainMenu() {
       name: "options",
       message: "what would you like to do?",
       choices: [
-        crud.getDepartments,
+        // crud.getDepartments,
         // crud.getRoles,
         // crud.getEmployees,
-        crud.postDepartment,
-        // crud.postRole,
-        // crud.postEmployee,
+        // crud.postDepartment,
+        crud.postRole,
+        crud.postEmployee,
         // crud.putEmployeeRole,
       ],
     },
@@ -157,58 +157,57 @@ function addDepartment() {
 }
 
 function addRole() {
-  console.log(`add ${role}`);
-  const question = [
-    {
-      type: "input",
-      name: "roleName",
-      message: "enter role name",
-      validate: (input) => {
-        if (input) {
-          return true;
-        } else {
-          console.log("enter role name");
-          return false;
-        }
-      },
-    },
-    {
-      type: "number",
-      name: "salary",
-      message: "enter salary",
-      validate: (input) => {
-        if (!input) {
-          console.log("enter salary");
-          return false;
-        }
-        return true;
-      },
-    },
-    {
-      type: "choices",
-      name: "department",
-      message: "which department does this role belong to?",
-      options: "",
-      validate: (input) => {
-        if (!input) {
-          console.log(
-            "which department does this role belong to? enter department id"
-          );
-          return false;
-        }
-        return true;
-      },
-    },
-  ];
+  const sql = `SELECT * FROM ${department}`;
+  db.query(sql, (err, table) => {
+    if (err) throw err;
+    // es6 | .map() | each department in the database
+    const departments = table.map((row) => {
+      return { value: row.id, name: row.name }
+    });
 
-  // inquirer.prompt(question).then((answer) => console.log(answer));
+    const questions = [
+      {
+        type: "input",
+        name: "title",
+        message: "enter role name",
+        validate: (input) => {
+          if (input) {
+            return true;
+          } else {
+            console.log("enter role name");
+            return false;
+          }
+        },
+      },
+      {
+        type: "input",
+        name: "salary",
+        message: "enter salary",
+      },
+      {
+        type: "list",
+        name: "department_id",
+        message: "which department does this role belong to?",
+        choices: departments,
+      },
+    ];
+
+    inquirer.prompt(questions).then((answer) => {
+      const sql = `INSERT INTO ${role} (title) VALUES (?)`;
+      console.log(answer);
+    });
+  });
 }
 
 function addEmployee() {
+  //
+  db.query(`SELECT * FROM ${employee}`, (err, table) => {
+    console.log(table);
+  });
   const question = [
     {
       type: "input",
-      name: "firstName",
+      name: "first_name",
       message: "enter first name",
       validate: (input) => {
         if (input) {
@@ -221,7 +220,7 @@ function addEmployee() {
     },
     {
       type: "input",
-      name: "lastName",
+      name: "last_name",
       message: "enter last name",
       validate: (input) => {
         if (input) {
@@ -233,21 +232,41 @@ function addEmployee() {
       },
     },
     {
-      type: "input",
-      name: "role",
-      message: "enter employee role",
-      validate: (input) => {
-        if (input) {
-          return true;
-        } else {
-          console.log("enter name employee role");
-          return false;
-        }
-      },
+      type: "list",
+      name: "role_id",
+      message: "select role",
+      choices: [""],
+    },
+    {
+      type: "list",
+      name: "has_manager",
+      message: "does this employee have a manager?",
+      choices: ["Yes", "No"],
+      default: "Yes",
+    },
+    {
+      type: "list",
+      name: "manager_id",
+      message: "select employee's manager",
+      when: (answers) => answers.has_manager === "Yes",
+      choices: [],
     },
   ];
 
-  inquirer.prompt(question).then((answer) => console.log(answer));
+  inquirer.prompt(questions).then((answers) => {
+    let manager_id = null;
+    if (answers.has_manager === "Yes") {
+      manager_id = answers.manager_id;
+    }
+    console.log(answers);
+
+    const sql = `INSERT INTO ${employee} (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)`;
+    const params =
+      (answers.first_name,
+      answers.last_name,
+      answers.role_id,
+      answers.manager_id);
+  });
 }
 
 // - put | update an employee's role
