@@ -55,9 +55,9 @@ function mainMenu() {
         // crud.getRoles,
         // crud.getEmployees,
         // crud.postDepartment,
-        crud.postRole,
+        // crud.postRole,
         // crud.postEmployee,
-        // crud.putEmployeeRole,
+        crud.putEmployeeRole,
       ],
     },
   ];
@@ -100,34 +100,37 @@ function mainMenu() {
 // - read | get specified tables from the database
 function viewDepartments() {
   const sql = `SELECT * FROM ${department}`
-  db.query(sql, (err, result) => {
+  // mysql | .query(request, response), if there are no errors, err is null & returns response. 
+  db.query(sql, (err, rows) => {
     if (err) throw err;
-    console.log("All departments: ");
-    console.table(result);
+    console.log(`${department}s: `);
+    console.table(rows);
   });
   mainMenu();
 }
 
 function viewRoles() {
   const sql = `SELECT * FROM ${role}`
-  db.query(sql, (err, result) => {
+  db.query(sql, (err, rows) => {
     if (err) throw err;
-    console.log("All roles: ");
-    console.table(result);
+    console.log(`${role}s: `);
+    console.table(rows);
   });
 }
 
 function viewEmployees() {
   const sql = `SELECT * FROM ${employee}`
-  db.query(sql, (err, result) => {
+  db.query(sql, (err, rows) => {
     if (err) throw err;
-    console.log("All roles: ");
-    console.table(result);
+    console.log(`${employee}s: `);
+    console.table(rows);
   });
 }
 
-// - post | add a new department, role, or employee to employee_tracker_db
+// - post | add a new department, role, or employee to employee_tracker_db.
 function addDepartment() {
+  const sql = `INSERT INTO ${department} (name) VALUES (?)`
+
   // captures key values
   const question = [
     {
@@ -244,16 +247,21 @@ function addEmployee() {
 
 // - put | update an employee's role
 function updateEmployeeRole() {
-  // get all employees
+  // sql read query via employee id
+  const sql = `SELECT * FROM ${employee} WHERE id = 1`;
+  db.query(sql, (err, row) => {
+    if (err) throw err;
+    console.log(employee)
+  })
 
-  prompt([]);
-  const question = [
-    {
-      type: "input",
-      name: "role",
-      message: "enter new role",
-    },
-  ];
+  // prompt([]);
+  // const question = [
+  //   {
+  //     type: "input",
+  //     name: "role",
+  //     message: "enter new role",
+  //   },
+  // ];
 
-  inquirer.prompt(question).then((answer) => console.log(answer));
+  // inquirer.prompt(question).then((answer) => console.log(answer));
 }
