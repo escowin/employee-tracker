@@ -367,11 +367,12 @@ function deleteEmployee() {
     inquirer.prompt(question).then(answer => {
       const sql = `DELETE FROM ${employee} WHERE id = ?`;
       const params = answer.id;
+      console.log(answer)
 
-      console.log(params);
+      // db.query(sql, params, 1, (err, result) => {
+      //   if (err) throw err;
+      //   console.log()
+      // })
     })
   })
-  // const sql = 
-  // parameters (request, number of rows affected, response)
-  // db.query(sql, 1, (err, result) => {})
 }
