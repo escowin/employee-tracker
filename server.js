@@ -52,7 +52,7 @@ function mainMenu() {
       choices: [
         // crud.getDepartments,
         crud.getRoles,
-        // crud.getEmployees,
+        crud.getEmployees,
         // crud.postDepartment,
         crud.postRole,
         crud.postEmployee,
@@ -162,7 +162,7 @@ function addRole() {
     if (err) throw err;
     // es6 | .map() | each department in the database
     const departments = table.map((row) => {
-      return { value: row.id, name: row.name }
+      return { value: row.id, name: row.name };
     });
 
     const questions = [
@@ -194,85 +194,101 @@ function addRole() {
 
     inquirer.prompt(questions).then((answer) => {
       const sql = `INSERT INTO ${role} (title, salary, department_id) VALUES (?,?,?)`;
-      const params = [answer.title, answer.salary, answer.department_id]
+      const params = [answer.title, answer.salary, answer.department_id];
 
       // mysql | query method posts role to database by taking the sql command & param values in its parameters
       db.query(sql, params, (err, res) => {
         if (err) throw err;
         console.log(`${params[0]} added to ${role}s`);
         mainMenu();
-      })
+      });
     });
   });
 }
 
 function addEmployee() {
-  //
+  
   db.query(`SELECT * FROM ${employee}`, (err, table) => {
-    console.log(table);
-  });
-  const question = [
-    {
-      type: "input",
-      name: "first_name",
-      message: "enter first name",
-      validate: (input) => {
-        if (input) {
-          return true;
-        } else {
-          console.log("enter last name");
-          return false;
-        }
-      },
-    },
-    {
-      type: "input",
-      name: "last_name",
-      message: "enter last name",
-      validate: (input) => {
-        if (input) {
-          return true;
-        } else {
-          console.log("enter last name");
-          return false;
-        }
-      },
-    },
-    {
-      type: "list",
-      name: "role_id",
-      message: "select role",
-      choices: [""],
-    },
-    {
-      type: "list",
-      name: "has_manager",
-      message: "does this employee have a manager?",
-      choices: ["Yes", "No"],
-      default: "Yes",
-    },
-    {
-      type: "list",
-      name: "manager_id",
-      message: "select employee's manager",
-      when: (answers) => answers.has_manager === "Yes",
-      choices: [],
-    },
-  ];
+    if (err) throw err;
+    const managers = table.map((row) => {
+      return { value: row.id, name: `${row.first_name} ${row.last_name}` };
+    });
 
-  inquirer.prompt(questions).then((answers) => {
-    let manager_id = null;
-    if (answers.has_manager === "Yes") {
-      manager_id = answers.manager_id;
-    }
-    console.log(answers);
+    db.query(`SELECT * FROM ${role}`, (err, table) => {
+      if (err) throw err;
+      const roles = table.map((row) => {
+        return { value: row.id, name: row.title };
+      });
 
-    const sql = `INSERT INTO ${employee} (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)`;
-    const params =
-      (answers.first_name,
-      answers.last_name,
-      answers.role_id,
-      answers.manager_id);
+      const questions = [
+        {
+          type: "input",
+          name: "first_name",
+          message: "enter first name",
+          validate: (input) => {
+            if (input) {
+              return true;
+            } else {
+              console.log("enter last name");
+              return false;
+            }
+          },
+        },
+        {
+          type: "input",
+          name: "last_name",
+          message: "enter last name",
+          validate: (input) => {
+            if (input) {
+              return true;
+            } else {
+              console.log("enter last name");
+              return false;
+            }
+          },
+        },
+        {
+          type: "list",
+          name: "role_id",
+          message: "select role",
+          choices: roles,
+        },
+        {
+          type: "list",
+          name: "has_manager",
+          message: "does this employee have a manager?",
+          choices: ["Yes", "No"],
+          default: "Yes",
+        },
+        {
+          type: "list",
+          name: "manager_id",
+          message: "select employee's manager",
+          when: (answers) => answers.has_manager === "Yes",
+          choices: [managers],
+        },
+      ];
+
+      inquirer.prompt(questions).then((answer) => {
+        let manager_id = null;
+        if (answer.has_manager === "Yes") {
+          manager_id = answer.manager_id;
+        }
+
+        const sql = `INSERT INTO ${employee} (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)`;
+        const params = [
+          answer.first_name,
+          answer.last_name,
+          answer.role_id,
+          answer.manager_id,
+        ];
+        db.query(sql, params, (err, res) => {
+          if (err) throw err;
+          console.log(`${params[0]} ${params[2]} added to ${employee}s`);
+          mainMenu();
+        });
+      });
+    });
   });
 }
 
