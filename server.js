@@ -22,11 +22,10 @@ const crud = {
   getDepartments: `view ${department}s`,
   getRoles: `view ${role}s`,
   getEmployees: `view ${employee}s`,
-  postDepartment: `add a ${department}`,
   postRole: `add a ${role}`,
-  postEmployee: `add a ${employee}`,
+  postEmployee: `add an ${employee}`,
   putEmployeeRole: `update an ${employee} ${role}`,
-  deleteEmployee: `delete an ${employee}`
+  deleteEmployee: `delete an ${employee}`,
 };
 
 // inquirer
@@ -60,7 +59,7 @@ function mainMenu() {
         crud.postRole,
         crud.postEmployee,
         crud.putEmployeeRole,
-        crud.deleteEmployee
+        crud.deleteEmployee,
       ],
     },
   ];
@@ -274,7 +273,7 @@ function addEmployee() {
           name: "manager_id",
           message: "select employee's manager",
           when: (answers) => answers.has_manager === "Yes",
-          choices: [managers],
+          choices: managers,
         },
       ];
 
@@ -348,31 +347,31 @@ function updateEmployeeRole() {
 }
 
 function deleteEmployee() {
-  const sql = `SELECT * FROM ${employee}`
+  const sql = `SELECT * FROM ${employee}`;
   db.query(sql, (err, employeeTable) => {
     if (err) throw err;
-    const employees = employeeTable.map(row => {
+    const employees = employeeTable.map((row) => {
       return { value: row.id, name: `${row.first_name} ${row.last_name}` };
-    })
+    });
 
     const question = [
       {
         type: "list",
         name: "id",
         message: "select employee to delete",
-        choices: employees
-      }
+        choices: employees,
+      },
     ];
 
-    inquirer.prompt(question).then(answer => {
+    inquirer.prompt(question).then((answer) => {
       const sql = `DELETE FROM ${employee} WHERE id = ?`;
       const params = answer.id;
-      console.log(answer)
 
-      // db.query(sql, params, 1, (err, result) => {
-      //   if (err) throw err;
-      //   console.log()
-      // })
-    })
-  })
+      db.query(sql, params, (err, result) => {
+        if (err) throw err;
+        console.log(`employee deleted`);
+        mainMenu();
+      });
+    });
+  });
 }
