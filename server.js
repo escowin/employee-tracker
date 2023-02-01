@@ -29,7 +29,7 @@ const crud = {
 };
 
 // inquirer
-// - start up | a welcome screen & a call to the main menu
+// - start up | welcome & main menu
 function init() {
   let date = new Date().getFullYear();
 
@@ -43,7 +43,6 @@ function init() {
   mainMenu();
 }
 
-// - main menu | a list of options to perform the main crud operations
 function mainMenu() {
   const question = [
     {
@@ -54,7 +53,7 @@ function mainMenu() {
         crud.getDepartments,
         // crud.getRoles,
         // crud.getEmployees,
-        // crud.postDepartment,
+        crud.postDepartment,
         // crud.postRole,
         // crud.postEmployee,
         // crud.putEmployeeRole,
@@ -96,21 +95,20 @@ function mainMenu() {
     });
 }
 
-// crud operators for employee_tracker_db
+// crud operators to use on employee_tracker_db
 // - read | get specified tables from the database
 function viewDepartments() {
-  const sql = `SELECT * FROM ${department}`
-  // mysql | .query(request, response), if there are no errors, err is null & returns response. 
+  const sql = `SELECT * FROM ${department}`;
+  // mysql | .query(request, response), if there are no errors, err is null & returns response.
   db.query(sql, (err, rows) => {
     if (err) throw err;
     console.log(`${department}s: `);
     console.table(rows);
   });
-  mainMenu();
 }
 
 function viewRoles() {
-  const sql = `SELECT * FROM ${role}`
+  const sql = `SELECT * FROM ${role}`;
   db.query(sql, (err, rows) => {
     if (err) throw err;
     console.log(`${role}s: `);
@@ -119,7 +117,7 @@ function viewRoles() {
 }
 
 function viewEmployees() {
-  const sql = `SELECT * FROM ${employee}`
+  const sql = `SELECT * FROM ${employee}`;
   db.query(sql, (err, rows) => {
     if (err) throw err;
     console.log(`${employee}s: `);
@@ -129,31 +127,33 @@ function viewEmployees() {
 
 // - post | add a new department, role, or employee to employee_tracker_db.
 function addDepartment() {
-  const sql = `INSERT INTO ${department} (id, name) VALUES (?,?)`;
-  // const params = [2, 'Finance']
-  db.query(sql, params, (err, result) => {
-    if (err) throw err;
-    console.log(result);
-  })
+  const question = [
+    {
+      type: "input",
+      name: "name",
+      message: "enter department name",
+      validate: (input) => {
+        if (input) {
+          return true;
+        } else {
+          console.log("enter department name");
+          return false;
+        }
+      },
+    },
+  ];
 
-  // captures key values
-  // const question = [
-  //   {
-  //     type: "input",
-  //     name: "departmentName",
-  //     message: "enter department name",
-  //     validate: (input) => {
-  //       if (input) {
-  //         return true;
-  //       } else {
-  //         console.log("enter department name");
-  //         return false;
-  //       }
-  //     },
-  //   },
-  // ];
+  inquirer.prompt(question).then((answer) => {
+    // post answer into the database table
+    const sql = `INSERT INTO ${department} (name) VALUES (?)`;
+    params = answer.name;
 
-  // inquirer.prompt(question).then((answer) => console.log(answer));
+    db.query(sql, params, (err, result) => {
+      if (err) throw err;
+      console.log(`${params} added to ${department}`);
+      mainMenu();
+    });
+  });
 }
 
 function addRole() {
@@ -256,8 +256,8 @@ function updateEmployeeRole() {
   const sql = `SELECT * FROM ${employee} WHERE id = 1`;
   db.query(sql, (err, row) => {
     if (err) throw err;
-    console.log(row)
-  })
+    console.log(row);
+  });
 
   // prompt([]);
   // const question = [
@@ -272,7 +272,7 @@ function updateEmployeeRole() {
 }
 
 // function deleteFunction() {
-  // const sql = `DELETE FROM ${} WHERE id = ?`
-  // // parameters (request, number of rows affected, response)
-  // db.query(sql, 1, (err, result) => {})
+// const sql = `DELETE FROM ${} WHERE id = ?`
+// // parameters (request, number of rows affected, response)
+// db.query(sql, 1, (err, result) => {})
 // }
