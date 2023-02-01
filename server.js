@@ -50,13 +50,13 @@ function mainMenu() {
       name: "options",
       message: "what would you like to do?",
       choices: [
-        // crud.getDepartments,
+        crud.getDepartments,
         crud.getRoles,
         crud.getEmployees,
         // crud.postDepartment,
-        crud.postRole,
-        crud.postEmployee,
-        // crud.putEmployeeRole,
+        // crud.postRole,
+        // crud.postEmployee,
+        crud.putEmployeeRole,
       ],
     },
   ];
@@ -207,13 +207,14 @@ function addRole() {
 }
 
 function addEmployee() {
-  
+  // queries employee table to get a list of managers for inquirer prompt
   db.query(`SELECT * FROM ${employee}`, (err, table) => {
     if (err) throw err;
     const managers = table.map((row) => {
       return { value: row.id, name: `${row.first_name} ${row.last_name}` };
     });
 
+    // queries role table to get a list of roles for inquirer prompt
     db.query(`SELECT * FROM ${role}`, (err, table) => {
       if (err) throw err;
       const roles = table.map((row) => {
@@ -269,6 +270,7 @@ function addEmployee() {
         },
       ];
 
+      // inquirer displays questions in cli, input values are then posted into database via query
       inquirer.prompt(questions).then((answer) => {
         let manager_id = null;
         if (answer.has_manager === "Yes") {
@@ -292,25 +294,50 @@ function addEmployee() {
   });
 }
 
-// - put | update an employee's role
+// - put | select and update and existing employee's role
 function updateEmployeeRole() {
-  // sql read query via employee id
-  const sql = `SELECT * FROM ${employee} WHERE id = 1`;
-  db.query(sql, (err, row) => {
+  // selects an existing employee from the database
+  const sql = `SELECT * FROM ${employee}`;
+  db.query(sql, (err, employeeTable) => {
     if (err) throw err;
-    console.log(row);
+    const employees = employeeTable.map((row) => {
+      return { value: row.id, name: `${row.first_name} ${row.last_name}` };
+    });
+
+    const sql = `SELECT * FROM ${role}`;
+    db.query(sql, (err, roleTable) => {
+      if (err) throw err;
+      const roles = roleTable.map((row) => {
+        return { value: row.id, name: row.title };
+      });
+
+      const questions = [
+        {
+          type: "list",
+          name: "id",
+          message: "select employee",
+          choices: employees,
+        },
+        {
+          type: "list",
+          name: "role_id",
+          message: "select new role",
+          choices: roles,
+        },
+      ];
+
+      inquirer.prompt(questions).then((answer) => {
+        const sql = `UPDATE ${employee} SET role_id = ? WHERE id = ? `;
+        const params = [answer.role_id, answer.id];
+
+        db.query(sql, params, (err, result) => {
+          if (err) throw err;
+          console.log(`${employees.first_name}'s ${role} has been updated`);
+          mainMenu();
+        });
+      });
+    });
   });
-
-  // prompt([]);
-  // const question = [
-  //   {
-  //     type: "input",
-  //     name: "role",
-  //     message: "enter new role",
-  //   },
-  // ];
-
-  // inquirer.prompt(question).then((answer) => console.log(answer));
 }
 
 // function deleteFunction() {
