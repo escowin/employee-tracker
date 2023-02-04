@@ -1,7 +1,6 @@
 const express = require("express");
 const db = require("./db/connection");
-const init = require('./menu');
-
+const { init } = require("./lib/menu");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
