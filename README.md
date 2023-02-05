@@ -1,25 +1,41 @@
+
 # employee-tracker
-* [Project Repo](https://github.com/escowin/employee-tracker)
 
-## DESCRIPTION
-* 12 SQL Challenge | Employee Tracker
-* Track employees
-* View, add, and edit via Department, Employee, and/or Role. All Data is connected via tables on tables 
+## Description
+[Repo](https://github.com/escowin/employee-tracker)
 
-## TABLE OF CONTENTS
-* [Installation](#INSTALLATION)
 
-* [Tests](#TESTS)
+using crud operators with sql queries through the command line
 
-* [Questions](#QUESTIONS)
+## Table of Contents
+- [Installation](#installation)
+- [Test](#test)
+- [Code](#code)
+- [Screenshots](#screenshots)
+- [Author](#author)
 
-## INSTALLATION
-* clone repo
-* CLI | npm i 
+## Installation
+Run the following command to install necessary dependencies:
+```
+$ npm i;
+```
 
-## TESTS
-* CLI | node server
+## Test
+Run the following command to run tests:
+```
+n/a
+```
 
-## QUESTIONS (CONTACT)
-* edwin@escowinart.com
-* | REPO  | [GitHub](https://github.com/escowin)
+## Code
+- Languages: Javascript, SQL
+- Frameworks: Node, Express
+- Libraries: inquirer, mysql2, dotenv, console.table
+- Database: mySQL
+
+## Screenshots
+![tablet](./images/medium/employee_tracker.jpg)
+
+## Author
+### Edwin M. Escobar
+- [Email](mailto:edwin@escowinart.com)
+- [GitHub](https://github.com/escowin)
